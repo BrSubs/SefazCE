@@ -3,33 +3,22 @@ import logging
 from dotenv import load_dotenv
 from telegram.ext import ApplicationBuilder, CommandHandler, ConversationHandler, MessageHandler, filters, CallbackQueryHandler
 from bot.handlers import data_input, payment, ocr_handler
+from bot.handlers.states import BotStates
 
-# Configuração do ambiente
 load_dotenv()
 
-# Constantes para deploy
-PORT = int(os.environ.get('PORT', 10000))
-RENDER_MODE = os.environ.get('RENDER')
-
-# Configuração de logs
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
 def setup_handlers(application):
-    """Configura todos os handlers do bot"""
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', data_input.start)],
         states={
-            data_input.AWAITING_INPUT: [
+            BotStates.AWAITING_INPUT: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, data_input.handle_text),
                 MessageHandler(filters.PHOTO, ocr_handler.handle_photo)
             ],
-            data_input.CONFIRM_DATA: [
+            BotStates.CONFIRM_DATA: [
                 CallbackQueryHandler(data_input.handle_confirmation)
             ],
-            payment.PAYMENT_CHOICE: [
+            BotStates.PAYMENT_CHOICE: [
                 CallbackQueryHandler(payment.handle_payment_choice)
             ]
         },
@@ -39,18 +28,15 @@ def setup_handlers(application):
 
 def main():
     application = ApplicationBuilder().token(os.getenv('TELEGRAM_TOKEN')).build()
-    
     setup_handlers(application)
     
-    # Modo produção no Render
-    if RENDER_MODE:
+    if os.getenv('RENDER'):
         application.run_webhook(
             listen="0.0.0.0",
-            port=PORT,
+            port=int(os.getenv('PORT', 10000)),
             webhook_url=f"https://{os.getenv('RENDER_EXTERNAL_HOSTNAME')}/{os.getenv('TELEGRAM_TOKEN')}"
         )
     else:
-        # Modo desenvolvimento local
         application.run_polling()
 
 if __name__ == '__main__':
