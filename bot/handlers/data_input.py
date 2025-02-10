@@ -5,7 +5,6 @@ from bot.services import sefaz_client
 from bot.utils import validators
 import logging
 
-# Configuração de logging
 logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: CallbackContext):
