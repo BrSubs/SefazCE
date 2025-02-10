@@ -1,5 +1,3 @@
-# bot/handlers/states.py
-
 class BotStates:
     """Define todos os estados da conversa"""
     AWAITING_INPUT = 1
