@@ -15,11 +15,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def create_application():
-    """Factory para criar a aplicação com configurações essenciais"""
+    """Cria a aplicação do bot"""
     return ApplicationBuilder().token(os.getenv('TELEGRAM_TOKEN')).build()
 
 def setup_conversation_handler(application):
-    """Configura o fluxo principal da conversação"""
+    """Configura o ConversationHandler corretamente"""
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', data_input.start)],
         states={
@@ -35,7 +35,7 @@ def setup_conversation_handler(application):
             ]
         },
         fallbacks=[CommandHandler('cancel', data_input.cancel)],
-        per_message=True  # Resolve o warning do PTB
+        per_message=False  # Corrige o warning e permite uso de MessageHandler
     )
     application.add_handler(conv_handler)
 
