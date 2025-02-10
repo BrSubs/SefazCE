@@ -1,23 +1,16 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import CallbackContext, MessageHandler, filters, CallbackQueryHandler, ConversationHandler
+from telegram.ext import CallbackContext, MessageHandler, filters
+from bot.handlers.states import BotStates
 from bot.services import sefaz_client
 from bot.utils import validators
-import logging
-
-# Estados da conversa
-AWAITING_INPUT, CONFIRM_DATA = range(2)
 
 async def start(update: Update, context: CallbackContext):
-    """Inicia o fluxo de consulta"""
     await update.message.reply_text(
         "🚗 *Brasil Emplacamentos CE Bot*\n\n"
-        "Envie:\n"
-        "• CHASSI (17 caracteres)\n"
-        "• PLACA + RENAVAM\n"
-        "• Foto do documento do veículo",
+        "Envie:\n• CHASSI (17 caracteres)\n• PLACA + RENAVAM\n• Foto do documento",
         parse_mode='Markdown'
     )
-    return AWAITING_INPUT
+    return BotStates.AWAITING_INPUT
 
 async def handle_text(update: Update, context: CallbackContext):
     """Processa entrada de texto"""
