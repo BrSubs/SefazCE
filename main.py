@@ -35,13 +35,14 @@ def setup_conversation_handler(application):
             ]
         },
         fallbacks=[CommandHandler('cancel', data_input.cancel)],
-        per_message=False  # Corrige o warning e permite uso de MessageHandler
+        per_message=False  # Permite uso de MessageHandler
     )
     application.add_handler(conv_handler)
 
 def run_application(application):
     """Inicia a aplicação conforme o ambiente"""
     if os.getenv('RENDER'):
+        # Configuração para Render
         application.run_webhook(
             listen="0.0.0.0",
             port=int(os.getenv('PORT', 10000)),
@@ -49,6 +50,7 @@ def run_application(application):
             drop_pending_updates=True
         )
     else:
+        # Modo desenvolvimento local
         application.run_polling(drop_pending_updates=True)
 
 def main():
