@@ -40,10 +40,10 @@ def main() -> None:
 
     # Iniciar o bot com webhook
     # application.run_webhook(
-        listen="0.0.0.0",
-        port=PORT,
-        webhook_url=WEBHOOK_URL,
-    )
+     #   listen="0.0.0.0",
+     #   port=PORT,
+     #   webhook_url=WEBHOOK_URL,
+    #)
 
 
 if __name__ == "__main__":
