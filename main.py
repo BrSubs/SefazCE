@@ -7,6 +7,7 @@ import logging
 # Configurações
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL do webhook no Render
+PORT = int(os.getenv("PORT", 8443))  # Porta padrão do Render
 
 # Configurar logging
 logging.basicConfig(
@@ -18,6 +19,7 @@ logger = logging.getLogger(__name__)
 async def post_init(application: Application) -> None:
     """Configura o webhook após a inicialização do bot."""
     await application.bot.set_webhook(WEBHOOK_URL)
+    logger.info(f"Webhook configurado com sucesso: {WEBHOOK_URL}")
 
 
 def main() -> None:
@@ -39,7 +41,7 @@ def main() -> None:
     # Iniciar o bot com webhook
     application.run_webhook(
         listen="0.0.0.0",
-        port=int(os.getenv("PORT", 8443)),  # Porta padrão do Render
+        port=PORT,
         webhook_url=WEBHOOK_URL,
     )
 
