@@ -1,10 +1,12 @@
-import logging
+from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 from bot.handlers import start, handle_renavam, handle_placa, cancel, RENAVAM, PLACA
 import os
+import logging
 
 # Configurações
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL do webhook no Render
 
 # Configurar logging
 logging.basicConfig(
@@ -13,9 +15,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+async def post_init(application: Application) -> None:
+    """Configura o webhook após a inicialização do bot."""
+    await application.bot.set_webhook(WEBHOOK_URL)
+
+
 def main() -> None:
     """Inicia o bot."""
-    application = Application.builder().token(TOKEN).build()
+    application = Application.builder().token(TOKEN).post_init(post_init).build()
 
     # Configurar handlers
     conv_handler = ConversationHandler(
@@ -28,7 +35,13 @@ def main() -> None:
     )
 
     application.add_handler(conv_handler)
-    application.run_polling()
+
+    # Iniciar o bot com webhook
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=int(os.getenv("PORT", 8443)),  # Porta padrão do Render
+        webhook_url=WEBHOOK_URL,
+    )
 
 
 if __name__ == "__main__":
