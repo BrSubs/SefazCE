@@ -7,7 +7,7 @@ import logging
 # Configurações
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # URL do webhook no Render
-PORT = int(os.getenv("PORT", 8443))  # Porta padrão do Render
+# PORT = int(os.getenv("PORT", 8443))  # Porta padrão do Render
 
 # Configurar logging
 logging.basicConfig(
