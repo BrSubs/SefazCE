@@ -1,0 +1,12 @@
+telegram-ipva-bot/
+│
+├── bot/
+│   ├── __init__.py
+│   ├── handlers.py          # Lógica dos handlers do Telegram
+│   ├── scraper.py           # Lógica de scraping e interação com o site
+│   └── validators.py        # Validação de RENAVAM e placa
+│
+├── requirements.txt         # Dependências do projeto
+├── main.py                   # Ponto de entrada do bot
+├── README.md                 # Documentação do projeto
+└── .gitignore                # Arquivos ignorados pelo Git
