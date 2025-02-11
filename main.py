@@ -1,7 +1,9 @@
 import logging
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
-from bot.handlers import start, handle_renavam, handle_placa, cancel
+from bot.handlers import start, handle_renavam, handle_placa, cancel, RENAVAM, PLACA
 import os
+
+# Configurações
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # Configurar logging
