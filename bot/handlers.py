@@ -7,6 +7,8 @@ from bot.scraper import SefazScraper
 # Estados da conversa
 RENAVAM, PLACA = range(2)
 
+__all__ = ["start", "handle_renavam", "handle_placa", "cancel", "RENAVAM", "PLACA"]
+
 # Configurar logging
 logger = logging.getLogger(__name__)
 
