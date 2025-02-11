@@ -38,6 +38,8 @@ def main() -> None:
 
     application.add_handler(conv_handler)
 
+    logger.info("Bot iniciado e escutando no webhook...")
+    
     # Iniciar o bot com webhook
     application.run_webhook(
         listen="0.0.0.0",
